@@ -1,0 +1,293 @@
+# Sudan Economic Observatory — Full Website Specification
+
+## 1. Project Name
+Sudan Economic Observatory (SEO)
+
+## 2. Purpose
+Build a frontend-first economic data governance and analytics platform for Sudan.
+
+The website is not just a dashboard. It is a structured system for:
+- storing Sudan economic datasets
+- validating extracted data
+- preserving source provenance
+- approving datasets before publication
+- supporting rollback
+- exploring trade, market, and economic indicators
+- building a long-term economic data archive
+
+## 3. Core Philosophy
+The system must follow these rules:
+
+- deterministic data ingestion only
+- no AI-generated economic values
+- no OCR guessing
+- no fabricated balancing rows
+- no silent correction of totals
+- every number must have a source
+- every observation must preserve provenance
+- extracted data must go to draft first
+- validation is required before approval
+- approval is rule-scoped
+- rollback must be safe and preserve history
+
+## 4. Current Architecture
+Frontend-only app.
+
+Technology:
+- HTML
+- CSS
+- Vanilla JavaScript
+- localStorage persistence
+- static hosting
+- no backend
+- no database
+- no authentication in current phase
+
+Current storage keys:
+- seo_obs_v2
+- seo_mp_v1
+- seo_forum_v2
+
+## 5. Main Website Sections
+
+### A. Home / Observatory Dashboard
+Shows:
+- key economic indicators
+- trade balance summary
+- exports/imports totals
+- latest approved datasets
+- data quality status
+- available modules
+
+### B. Foreign Trade Explorer
+Core module.
+
+Allows users to explore:
+- exports
+- imports
+- trade balance
+- annual data
+- quarterly data
+- monthly data
+- commodity-level data
+
+Features:
+- filter by year
+- filter by flow: export/import
+- filter by period type: annual/monthly/quarterly
+- filter by commodity
+- totals by year
+- charts
+- tables
+- approved data only in explorer
+
+### C. PDF Import Prototype
+Controlled extraction area.
+
+Workflow:
+PDF upload
+→ parse
+→ draft observations
+→ validation
+→ review
+→ approval
+→ publication
+
+Must include:
+- source file tracking
+- source page tracking
+- source table tracking
+- draft review table
+- validation report
+- approval buttons
+- rollback preview
+
+### D. Draft Review Table
+Shows extracted but not approved rows.
+
+Columns:
+- flow
+- period
+- month
+- commodity
+- unit
+- quantity
+- value
+- source page
+- ruleId
+- status
+- validation
+- actions
+
+Actions:
+- edit
+- save
+- flag
+- delete
+- approve only if validation passes
+
+### E. Approved Batch Registry
+Shows approved rule batches.
+
+Must show:
+- batchId
+- source file
+- flow
+- ruleId
+- year
+- periodType
+- rows
+- total
+- approvedAt
+- status
+- rollback preview
+
+Rollback:
+- must not delete draft data
+- must deactivate active observations
+- must preserve provenance
+
+### F. Market Monitoring
+A module for market indicators and seed market data.
+
+Should support:
+- price observations
+- market categories
+- basic charts
+- source tracking
+
+### G. Economic Forum
+A structured discussion module.
+
+Should support:
+- topics
+- economic policy discussions
+- categorized threads
+- localStorage persistence
+
+### H. Library / Research Archive
+A place for:
+- reports
+- policy documents
+- economic studies
+- institutional references
+
+## 6. Data Model
+
+### Observation Fields
+Each economic observation should include:
+
+- id
+- year
+- period_type
+- quarter
+- month_number
+- month_name
+- flow
+- commodity_raw_en
+- commodity_raw_ar
+- commodity_id
+- unit
+- quantity
+- value_usd_thousand
+- source_file
+- source_page
+- source_table
+- rule_id
+- batch_id
+- validation_status
+- approval_status
+- notes
+
+## 7. Trade Data Workflow
+
+### Step 1: Extract
+Data is extracted from PDF or imported Excel/CSV into draft observations.
+
+### Step 2: Validate
+Validation checks:
+- expected total
+- extracted total
+- difference
+- duplicate rows
+- missing values
+- unmapped commodities
+- annual/monthly reconciliation
+- source consistency
+
+### Step 3: Review
+Any ambiguous rows go to review_required.
+
+### Step 4: Approve
+Approval requires:
+- validation pass
+- exact confirmation
+- no active conflicting batch
+- rule-scoped approval
+
+### Step 5: Publish
+Approved rows become active observations.
+
+### Step 6: Rollback
+Rollback deactivates approved rows but preserves provenance.
+
+## 8. Canonical Workbook Import Design
+
+The system should support importing one Excel workbook per year:
+
+File name:
+CBOS_<YEAR>_validated.xlsx
+
+Sheets:
+1. metadata
+2. trade_balance_summary
+3. monthly_exports
+4. monthly_imports
+5. quarterly_exports
+6. quarterly_imports
+7. annual_exports_summary
+8. annual_imports_summary
+9. validation_report
+10. review_required
+
+## 9. Important UX Requirements
+
+The interface should be:
+- clean
+- Arabic/English friendly
+- suitable for economic researchers
+- transparent about validation
+- strict about approval
+- clear about source/provenance
+- easy to audit
+
+Use Arabic labels where useful, but keep technical fields stable in English.
+
+## 10. What Must Not Be Added
+
+Do not add:
+- backend
+- database
+- login system
+- AI extraction
+- OCR
+- fabricated values
+- automatic approval
+- universal PDF parser
+- broad refactor
+
+## 11. Immediate Build Target
+
+Create or improve a static frontend prototype with:
+
+- dashboard
+- foreign trade explorer
+- draft review table
+- approved batch registry
+- import workflow placeholder
+- validation report area
+- rollback preview area
+- localStorage persistence
+- clean structured code
+
+The site should be ready to receive validated Excel/CSV trade data later.
